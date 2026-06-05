@@ -1,30 +1,35 @@
 import { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 import type { Express, Request, Response } from "express";
+import { createRequire } from "module";
 import * as db from "../db";
 import { getSessionCookieOptions } from "./cookies";
 import { sdk } from "./sdk";
-import * as admin from "firebase-admin";
+
+// firebase-admin is a CommonJS package; use createRequire to load it in ESM context
+const require = createRequire(import.meta.url);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const firebaseAdmin = require("firebase-admin") as typeof import("firebase-admin");
 
 let adminInitialized = false;
 
-function getFirebaseAdmin() {
+function getAdmin() {
   if (!adminInitialized) {
     const projectId = process.env.VITE_FIREBASE_PROJECT_ID;
     if (!projectId) {
       throw new Error("VITE_FIREBASE_PROJECT_ID is not set");
     }
-    // Initialize without service account — uses project ID only for token verification
-    admin.initializeApp({ projectId });
+    // Initialize without service account — projectId is sufficient for ID token verification
+    firebaseAdmin.initializeApp({ projectId });
     adminInitialized = true;
   }
-  return admin;
+  return firebaseAdmin;
 }
 
 export function registerFirebaseAuthRoutes(app: Express) {
   /**
    * POST /api/auth/firebase
    * Body: { idToken: string }
-   * Verifies the Firebase ID token, upserts the user, and sets the session cookie.
+   * Verifies the Firebase ID token, upserts the user, and issues a session cookie.
    */
   app.post("/api/auth/firebase", async (req: Request, res: Response) => {
     const { idToken } = req.body as { idToken?: string };
@@ -35,20 +40,20 @@ export function registerFirebaseAuthRoutes(app: Express) {
     }
 
     try {
-      const firebaseAdmin = getFirebaseAdmin();
-      const decoded = await firebaseAdmin.auth().verifyIdToken(idToken);
+      const admin = getAdmin();
+      const decoded = await admin.auth().verifyIdToken(idToken);
 
       const uid = decoded.uid;
-      const name = decoded.name || decoded.email?.split("@")[0] || "Usuario";
+      const name = (decoded.name as string | undefined) || decoded.email?.split("@")[0] || "Usuario";
       const email = decoded.email || null;
 
       // Derive login method from Firebase sign-in provider
-      const provider = decoded.firebase?.sign_in_provider ?? "";
+      const provider = (decoded.firebase as any)?.sign_in_provider ?? "";
       let loginMethod = "email";
       if (provider.includes("google")) loginMethod = "google";
       else if (provider.includes("facebook")) loginMethod = "facebook";
 
-      // Use Firebase UID as openId (prefixed to avoid collisions with Manus openIds)
+      // Prefix UID to avoid collisions with Manus openIds
       const openId = `firebase_${uid}`;
 
       await db.upsertUser({
