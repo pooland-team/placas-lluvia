@@ -279,7 +279,7 @@ export default function Home() {
                 <Car className="w-3 h-3 text-primary-foreground" />
               </div>
               <span className="font-serif text-sm font-semibold text-foreground">
-                Placas por Lluvia
+                ¿Dónde están mis placas?
               </span>
             </div>
             <p className="text-xs text-muted-foreground text-center">
