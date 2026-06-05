@@ -47,10 +47,10 @@ export default function NavBar() {
                 <Car className="w-4 h-4 text-primary-foreground" />
               </div>
               <span className="font-serif font-semibold text-lg text-foreground hidden sm:block">
-                ¿Dónde están mis placas?
+                placasperdidas.mx
               </span>
               <span className="font-serif font-semibold text-base text-foreground sm:hidden">
-                Mis Placas
+                placasperdidas
               </span>
             </div>
           </Link>

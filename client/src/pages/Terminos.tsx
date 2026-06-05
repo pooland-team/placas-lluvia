@@ -16,18 +16,18 @@ export default function Terminos() {
         <article className="prose prose-slate max-w-none">
           <h1 className="font-serif text-3xl font-bold text-foreground mb-2">Términos y Condiciones de Uso</h1>
           <p className="text-muted-foreground text-sm mb-8">
-            <strong>¿Dónde están mis placas?</strong> · dondestanmisplacas.com · Última actualización: junio de 2026
+            <strong>placasperdidas.mx</strong> · placasperdidas.mx · Última actualización: junio de 2026
           </p>
 
           <Section title="1. Aceptación de los términos">
             <p>
-              El acceso y uso de la plataforma <strong>¿Dónde están mis placas?</strong>, disponible en{" "}
-              <strong>dondestanmisplacas.com</strong>, implica la aceptación plena y sin reservas de los
+              El acceso y uso de la plataforma <strong>placasperdidas.mx</strong>, disponible en{" "}
+              <strong>placasperdidas.mx</strong>, implica la aceptación plena y sin reservas de los
               presentes Términos y Condiciones de Uso. Si el usuario no está de acuerdo con alguna de las
               disposiciones aquí establecidas, deberá abstenerse de utilizar la Plataforma.
             </p>
             <p>
-              <strong>dondestanmisplacas.com</strong> (en adelante, "el Titular") se reserva el derecho de
+              <strong>placasperdidas.mx</strong> (en adelante, "el Titular") se reserva el derecho de
               modificar estos Términos en cualquier momento. El uso continuado de la Plataforma tras la
               publicación de cambios constituye su aceptación.
             </p>
@@ -35,7 +35,7 @@ export default function Terminos() {
 
           <Section title="2. Descripción del servicio">
             <p>
-              <strong>¿Dónde están mis placas?</strong> es una plataforma digital que permite a los usuarios:
+              <strong>placasperdidas.mx</strong> es una plataforma digital que permite a los usuarios:
             </p>
             <ul>
               <li><strong>Reportar una placa perdida:</strong> publicar el número de placa y el estado de la República donde se perdió.</li>
@@ -165,7 +165,7 @@ export default function Terminos() {
           </Section>
 
           <div className="mt-10 pt-6 border-t border-border text-xs text-muted-foreground">
-            Versión vigente desde junio de 2026. Todos los derechos reservados — <strong>¿Dónde están mis placas?</strong>
+            Versión vigente desde junio de 2026. Todos los derechos reservados — <strong>placasperdidas.mx</strong>
           </div>
         </article>
       </div>

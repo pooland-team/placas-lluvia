@@ -16,14 +16,14 @@ export default function Privacidad() {
         <article className="prose prose-slate max-w-none">
           <h1 className="font-serif text-3xl font-bold text-foreground mb-2">Política de Privacidad</h1>
           <p className="text-muted-foreground text-sm mb-8">
-            <strong>¿Dónde están mis placas?</strong> · dondestanmisplacas.com · Última actualización: junio de 2026
+            <strong>placasperdidas.mx</strong> · placasperdidas.mx · Última actualización: junio de 2026
           </p>
 
           <Section title="1. Responsable del tratamiento">
             <p>
               El responsable del tratamiento de los datos personales recabados a través de la plataforma{" "}
-              <strong>¿Dónde están mis placas?</strong> (en adelante, "la Plataforma"), accesible en{" "}
-              <strong>dondestanmisplacas.com</strong>, es <strong>dondestanmisplacas.com</strong> (en adelante,
+              <strong>placasperdidas.mx</strong> (en adelante, "la Plataforma"), accesible en{" "}
+              <strong>placasperdidas.mx</strong>, es <strong>placasperdidas.mx</strong> (en adelante,
               "el Responsable"). Para cualquier consulta relacionada con el tratamiento de sus datos, puede
               contactarnos a través de:{" "}
               <a href="mailto:privacidad.dondestanmisplacas@gmail.com" className="text-primary underline underline-offset-2">

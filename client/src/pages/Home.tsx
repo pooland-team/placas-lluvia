@@ -279,7 +279,7 @@ export default function Home() {
                 <Car className="w-3 h-3 text-primary-foreground" />
               </div>
               <span className="font-serif text-sm font-semibold text-foreground">
-                ¿Dónde están mis placas?
+                placasperdidas.mx
               </span>
             </div>
             <div className="flex flex-col items-center gap-1">

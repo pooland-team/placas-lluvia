@@ -1,6 +1,6 @@
 {
-  "name": "¿Dónde están mis placas?",
-  "short_name": "Mis Placas",
+  "name": "placasperdidas.mx",
+  "short_name": "placasperdidas",
   "description": "Reporta y recupera placas vehiculares perdidas durante lluvias.",
   "start_url": "/",
   "display": "standalone",
