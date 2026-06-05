@@ -13,7 +13,7 @@ export default function Search() {
   const [query, setQuery] = useState("");
   const [submitted, setSubmitted] = useState("");
 
-  const { data, isLoading } = trpc.plates.search.useQuery(
+  const { data, isLoading, error } = trpc.plates.search.useQuery(
     { plateNumber: submitted },
     { enabled: submitted.length > 0 }
   );
@@ -58,8 +58,15 @@ export default function Search() {
           </Button>
         </form>
 
+        {/* Error state */}
+        {error && (
+          <div className="text-center py-8 bg-destructive/5 border border-destructive/20 rounded-xl">
+            <p className="text-destructive text-sm">Error al buscar. Intenta de nuevo.</p>
+          </div>
+        )}
+
         {/* Results */}
-        {submitted && !isLoading && data && (
+        {submitted && !isLoading && !error && data && (
           <div className="animate-fade-in-up">
             {totalResults === 0 ? (
               <div className="text-center py-12 bg-muted/30 rounded-2xl border border-border">
@@ -101,19 +108,20 @@ export default function Search() {
                             <CardContent className="p-4">
                               <div className="flex items-start justify-between gap-3">
                                 <div className="flex-1">
-                                  <div className="flex items-center gap-2 mb-1">
+                                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                                     <span className="font-mono font-bold text-lg text-primary tracking-widest">
                                       {plate.plateNumber}
                                     </span>
                                     <Badge className="bg-amber-50 text-amber-700 border-amber-200 text-xs">
                                       Perdida
                                     </Badge>
+                                    {plate.estadoPlaca && (
+                                      <Badge variant="outline" className="text-xs gap-1">
+                                        <MapPin className="w-2.5 h-2.5" />
+                                        {plate.estadoPlaca}
+                                      </Badge>
+                                    )}
                                   </div>
-                                  {plate.description && (
-                                    <p className="text-sm text-muted-foreground line-clamp-2">
-                                      {plate.description}
-                                    </p>
-                                  )}
                                   <p className="text-xs text-muted-foreground mt-1">
                                     Reportada el {format(new Date(plate.createdAt), "d 'de' MMMM yyyy", { locale: es })}
                                   </p>
@@ -144,25 +152,20 @@ export default function Search() {
                             <CardContent className="p-4">
                               <div className="flex items-start justify-between gap-3">
                                 <div className="flex-1">
-                                  <div className="flex items-center gap-2 mb-1">
+                                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                                     <span className="font-mono font-bold text-lg text-primary tracking-widest">
                                       {plate.plateNumber}
                                     </span>
                                     <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-xs">
                                       Encontrada
                                     </Badge>
+                                    {plate.estadoPlaca && (
+                                      <Badge variant="outline" className="text-xs gap-1">
+                                        <MapPin className="w-2.5 h-2.5" />
+                                        {plate.estadoPlaca}
+                                      </Badge>
+                                    )}
                                   </div>
-                                  {plate.locationApprox && (
-                                    <p className="text-sm text-muted-foreground flex items-center gap-1">
-                                      <MapPin className="w-3 h-3" />
-                                      {plate.locationApprox}
-                                    </p>
-                                  )}
-                                  {plate.description && (
-                                    <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
-                                      {plate.description}
-                                    </p>
-                                  )}
                                   <p className="text-xs text-muted-foreground mt-1">
                                     Reportada el {format(new Date(plate.createdAt), "d 'de' MMMM yyyy", { locale: es })}
                                   </p>

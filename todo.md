@@ -47,3 +47,16 @@
 ## Tests
 - [x] Test: crear y buscar placa
 - [x] Test: enviar mensaje interno
+
+## Cambios v2 — Estado mexicano y sin descripción
+- [x] Migración SQL: eliminar columna `description`, renombrar `locationApprox` a `estadoPlaca`
+- [x] Actualizar `drizzle/schema.ts`: campo `estadoPlaca` (varchar), sin `description`
+- [x] Actualizar `server/db.ts`: quitar referencias a `description` y `locationApprox`
+- [x] Actualizar `server/routers.ts`: inputs/outputs sin `description`, con `estadoPlaca`
+- [x] Crear constante compartida con las 32 entidades federativas de México
+- [x] Actualizar `PlateReportForm.tsx`: selector de estado, sin campo descripción
+- [x] Actualizar `FoundPlates.tsx`: mostrar estado en lugar de locationApprox
+- [x] Actualizar `Search.tsx`: mostrar estado
+- [x] Actualizar `PlateDetail.tsx`: mostrar estado, sin descripción
+- [x] Actualizar `MyPlates.tsx`: mostrar estado
+- [x] Actualizar tests para reflejar nuevo esquema

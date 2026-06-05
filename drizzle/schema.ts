@@ -32,12 +32,11 @@ export const plates = mysqlTable("plates", {
   userId: int("userId").notNull(),
   type: mysqlEnum("type", ["lost", "found"]).notNull(),
   plateNumber: varchar("plateNumber", { length: 20 }).notNull(),
-  description: text("description"),
+  /** Estado de la República Mexicana al que pertenecen las placas */
+  estadoPlaca: varchar("estadoPlaca", { length: 100 }),
   incidentDate: timestamp("incidentDate").notNull(),
   photoUrl: text("photoUrl"),
   photoKey: text("photoKey"),
-  /** Solo para placas encontradas: zona aproximada */
-  locationApprox: varchar("locationApprox", { length: 255 }),
   /** Estado del reporte */
   status: mysqlEnum("status", ["active", "claimed", "closed"]).default("active").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

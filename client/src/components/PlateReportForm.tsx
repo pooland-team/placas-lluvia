@@ -2,12 +2,19 @@ import { useState, useRef } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
 import { Camera, X, Upload, Loader2 } from "lucide-react";
 import { useLocation } from "wouter";
+import { ESTADOS_MEXICO } from "@shared/estados";
 
 interface Props {
   type: "lost" | "found";
@@ -16,11 +23,10 @@ interface Props {
 export default function PlateReportForm({ type }: Props) {
   const [, navigate] = useLocation();
   const [plateNumber, setPlateNumber] = useState("");
-  const [description, setDescription] = useState("");
+  const [estadoPlaca, setEstadoPlaca] = useState("");
   const [incidentDate, setIncidentDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-  const [locationApprox, setLocationApprox] = useState("");
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -96,7 +102,7 @@ export default function PlateReportForm({ type }: Props) {
 
     const payload = {
       plateNumber: plateNumber.trim().toUpperCase(),
-      description: description.trim() || undefined,
+      estadoPlaca: estadoPlaca || undefined,
       incidentDate,
       photoUrl,
       photoKey,
@@ -105,10 +111,7 @@ export default function PlateReportForm({ type }: Props) {
     if (type === "lost") {
       reportLost.mutate(payload);
     } else {
-      reportFound.mutate({
-        ...payload,
-        locationApprox: locationApprox.trim() || undefined,
-      });
+      reportFound.mutate(payload);
     }
   };
 
@@ -135,6 +138,28 @@ export default function PlateReportForm({ type }: Props) {
         </p>
       </div>
 
+      {/* Estado de la placa */}
+      <div className="space-y-2">
+        <Label htmlFor="estadoPlaca" className="text-sm font-semibold">
+          Estado de la placa <span className="text-destructive">*</span>
+        </Label>
+        <Select value={estadoPlaca} onValueChange={setEstadoPlaca} required>
+          <SelectTrigger id="estadoPlaca" className="h-11">
+            <SelectValue placeholder="Selecciona el estado de la República..." />
+          </SelectTrigger>
+          <SelectContent className="max-h-72">
+            {ESTADOS_MEXICO.map((estado) => (
+              <SelectItem key={estado} value={estado}>
+                {estado}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <p className="text-xs text-muted-foreground">
+          Estado de la República al que pertenecen las placas vehiculares.
+        </p>
+      </div>
+
       {/* Incident date */}
       <div className="space-y-2">
         <Label htmlFor="incidentDate" className="text-sm font-semibold">
@@ -150,49 +175,6 @@ export default function PlateReportForm({ type }: Props) {
           required
           className="h-11"
         />
-      </div>
-
-      {/* Location (found only) */}
-      {type === "found" && (
-        <div className="space-y-2">
-          <Label htmlFor="location" className="text-sm font-semibold">
-            Ubicación aproximada
-          </Label>
-          <Input
-            id="location"
-            value={locationApprox}
-            onChange={(e) => setLocationApprox(e.target.value)}
-            placeholder="Ej. Colonia Roma Norte, CDMX"
-            maxLength={255}
-            className="h-11"
-          />
-          <p className="text-xs text-muted-foreground">
-            Zona general donde encontraste la placa. No incluyas dirección exacta.
-          </p>
-        </div>
-      )}
-
-      {/* Description */}
-      <div className="space-y-2">
-        <Label htmlFor="description" className="text-sm font-semibold">
-          Descripción adicional
-        </Label>
-        <Textarea
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder={
-            type === "lost"
-              ? "Ej. Placa de auto sedán azul, se cayó durante la lluvia del martes..."
-              : "Ej. La encontré en la banqueta después de la tormenta, está en buen estado..."
-          }
-          rows={3}
-          maxLength={500}
-          className="resize-none"
-        />
-        <p className="text-xs text-muted-foreground text-right">
-          {description.length}/500
-        </p>
       </div>
 
       {/* Photo upload */}
@@ -229,7 +211,7 @@ export default function PlateReportForm({ type }: Props) {
           >
             <Camera className="w-8 h-8" />
             <div className="text-center">
-              <p className="text-sm font-medium">Agregar foto</p>
+              <p className="text-sm font-medium">Agregar foto de la placa</p>
               <p className="text-xs mt-0.5">JPG, PNG o WEBP · Máx. 5 MB</p>
             </div>
             <div className="flex items-center gap-2 text-xs bg-secondary px-3 py-1.5 rounded-full">
@@ -251,7 +233,7 @@ export default function PlateReportForm({ type }: Props) {
       <Button
         type="submit"
         className="w-full h-12 text-base font-semibold gap-2"
-        disabled={isPending || !plateNumber.trim()}
+        disabled={isPending || !plateNumber.trim() || !estadoPlaca}
       >
         {isPending ? (
           <>

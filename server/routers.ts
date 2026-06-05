@@ -76,7 +76,7 @@ const platesRouter = router({
     .input(
       z.object({
         plateNumber: z.string().min(1).max(20),
-        description: z.string().optional(),
+        estadoPlaca: z.string().optional(),
         incidentDate: z.string(),
         photoUrl: z.string().optional(),
         photoKey: z.string().optional(),
@@ -87,11 +87,10 @@ const platesRouter = router({
         userId: ctx.user.id,
         type: "lost",
         plateNumber: input.plateNumber.trim().toUpperCase(),
-        description: input.description ?? null,
+        estadoPlaca: input.estadoPlaca ?? null,
         incidentDate: new Date(input.incidentDate),
         photoUrl: input.photoUrl ?? null,
         photoKey: input.photoKey ?? null,
-        locationApprox: null,
         status: "active",
       });
 
@@ -111,11 +110,10 @@ const platesRouter = router({
     .input(
       z.object({
         plateNumber: z.string().min(1).max(20),
-        description: z.string().optional(),
+        estadoPlaca: z.string().optional(),
         incidentDate: z.string(),
         photoUrl: z.string().optional(),
         photoKey: z.string().optional(),
-        locationApprox: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -123,11 +121,10 @@ const platesRouter = router({
         userId: ctx.user.id,
         type: "found",
         plateNumber: input.plateNumber.trim().toUpperCase(),
-        description: input.description ?? null,
+        estadoPlaca: input.estadoPlaca ?? null,
         incidentDate: new Date(input.incidentDate),
         photoUrl: input.photoUrl ?? null,
         photoKey: input.photoKey ?? null,
-        locationApprox: input.locationApprox ?? null,
         status: "active",
       });
 

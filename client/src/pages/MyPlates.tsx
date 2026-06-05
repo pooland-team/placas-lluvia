@@ -162,21 +162,15 @@ export default function MyPlates() {
                         </Badge>
                       </div>
 
-                      {plate.description && (
-                        <p className="text-sm text-muted-foreground line-clamp-1 mb-1">
-                          {plate.description}
-                        </p>
-                      )}
-
                       <div className="flex items-center gap-3 text-xs text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
                           {format(new Date(plate.createdAt), "d MMM yyyy", { locale: es })}
                         </span>
-                        {plate.locationApprox && (
+                        {plate.estadoPlaca && (
                           <span className="flex items-center gap-1 truncate">
                             <MapPin className="w-3 h-3 shrink-0" />
-                            {plate.locationApprox}
+                            {plate.estadoPlaca}
                           </span>
                         )}
                       </div>

@@ -84,19 +84,12 @@ export default function FoundPlates() {
                       </div>
                     )}
 
-                    {/* Description */}
-                    {plate.description && (
-                      <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-                        {plate.description}
-                      </p>
-                    )}
-
                     {/* Meta */}
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                      {plate.locationApprox && (
+                      {plate.estadoPlaca && (
                         <span className="flex items-center gap-1 truncate">
                           <MapPin className="w-3 h-3 shrink-0" />
-                          {plate.locationApprox}
+                          {plate.estadoPlaca}
                         </span>
                       )}
                       <span className="flex items-center gap-1 shrink-0 ml-auto">

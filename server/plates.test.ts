@@ -59,7 +59,7 @@ describe("plates — create and search", () => {
     // Create a lost plate
     const created = await caller.plates.reportLost({
       plateNumber: TEST_PLATE,
-      description: "Test plate for unit test",
+      estadoPlaca: "Jalisco",
       incidentDate: new Date().toISOString(),
     });
     expect(created).toHaveProperty("id");
@@ -78,9 +78,8 @@ describe("plates — create and search", () => {
 
     await caller.plates.reportFound({
       plateNumber: foundPlate,
-      description: "Found plate for unit test",
+      estadoPlaca: "Sonora",
       incidentDate: new Date().toISOString(),
-      locationApprox: "Zona de prueba",
     });
 
     const publicCaller = appRouter.createCaller(createPublicContext());
@@ -100,7 +99,7 @@ describe("messaging — start conversation and send message", () => {
     // User 51 reports a found plate
     const created = await finderCaller.plates.reportFound({
       plateNumber: foundPlate,
-      description: "Messaging test plate",
+      estadoPlaca: "Yucatán",
       incidentDate: new Date().toISOString(),
     });
     expect(created).toHaveProperty("id");

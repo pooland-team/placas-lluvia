@@ -151,13 +151,6 @@ export default function PlateDetail() {
             </div>
           </div>
 
-          {/* Description */}
-          {plate.description && (
-            <p className="text-foreground/80 leading-relaxed mb-4">
-              {plate.description}
-            </p>
-          )}
-
           {/* Meta info */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
             <div className="flex items-center gap-2 text-muted-foreground">
@@ -167,10 +160,10 @@ export default function PlateDetail() {
                 {format(new Date(plate.incidentDate), "d 'de' MMMM yyyy", { locale: es })}
               </span>
             </div>
-            {plate.locationApprox && (
+            {plate.estadoPlaca && (
               <div className="flex items-center gap-2 text-muted-foreground">
                 <MapPin className="w-4 h-4 shrink-0" />
-                <span>{plate.locationApprox}</span>
+                <span>Placas de {plate.estadoPlaca}</span>
               </div>
             )}
             <div className="flex items-center gap-2 text-muted-foreground">
