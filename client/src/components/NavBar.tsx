@@ -20,10 +20,13 @@ import {
   ListChecks,
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import { useState } from "react";
+import { ManusDialog } from "@/components/ManusDialog";
 
 export default function NavBar() {
   const { user, isAuthenticated, logout } = useAuth();
   const [location] = useLocation();
+  const [loginOpen, setLoginOpen] = useState(false);
 
   const { data: unread = 0 } = trpc.messaging.unreadCount.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -143,12 +146,20 @@ export default function NavBar() {
                 </DropdownMenu>
               </>
             ) : (
-              <Button
-                size="sm"
-                onClick={() => (window.location.href = getLoginUrl())}
-              >
-                Iniciar sesión
-              </Button>
+              <>
+                <Button
+                  size="sm"
+                  onClick={() => setLoginOpen(true)}
+                >
+                  Iniciar sesión
+                </Button>
+                <ManusDialog
+                  open={loginOpen}
+                  onOpenChange={setLoginOpen}
+                  onLogin={() => { window.location.href = getLoginUrl(); }}
+                  title="Bienvenido"
+                />
+              </>
             )}
           </div>
         </div>

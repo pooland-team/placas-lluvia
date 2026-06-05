@@ -4,10 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { Home, Search, Plus, MessageSquare, ListChecks } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { getLoginUrl } from "@/const";
+import { useState } from "react";
+import { ManusDialog } from "@/components/ManusDialog";
 
 export default function MobileNav() {
   const { isAuthenticated } = useAuth();
   const [location] = useLocation();
+  const [loginOpen, setLoginOpen] = useState(false);
 
   const { data: unread = 0 } = trpc.messaging.unreadCount.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -39,25 +42,56 @@ export default function MobileNav() {
     </Link>
   );
 
+  const loginNavItem = (icon: React.ReactNode, label: string) => (
+    <button
+      onClick={() => setLoginOpen(true)}
+      className="flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-colors cursor-pointer text-muted-foreground hover:text-foreground"
+    >
+      {icon}
+      <span className="text-[10px] font-medium">{label}</span>
+    </button>
+  );
+
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border safe-area-inset-bottom">
-      <div className="flex items-center justify-around px-2 py-1">
-        {navItem("/", <Home className="w-5 h-5" />, "Inicio")}
-        {navItem("/encontradas", <ListChecks className="w-5 h-5" />, "Encontradas")}
-        {/* Central CTA */}
-        <Link href={isAuthenticated ? "/reportar/perdida" : getLoginUrl()}>
-          <div className="flex flex-col items-center gap-0.5 cursor-pointer">
-            <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30 -mt-4">
-              <Plus className="w-6 h-6 text-primary-foreground" />
-            </div>
-            <span className="text-[10px] font-medium text-muted-foreground mt-0.5">Reportar</span>
-          </div>
-        </Link>
-        {navItem("/buscar", <Search className="w-5 h-5" />, "Buscar")}
-        {isAuthenticated
-          ? navItem("/mensajes", <MessageSquare className="w-5 h-5" />, "Mensajes", unread)
-          : navItem(getLoginUrl(), <MessageSquare className="w-5 h-5" />, "Mensajes")}
-      </div>
-    </nav>
+    <>
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border safe-area-inset-bottom">
+        <div className="flex items-center justify-around px-2 py-1">
+          {navItem("/", <Home className="w-5 h-5" />, "Inicio")}
+          {navItem("/encontradas", <ListChecks className="w-5 h-5" />, "Encontradas")}
+
+          {/* Central CTA */}
+          {isAuthenticated ? (
+            <Link href="/reportar/perdida">
+              <div className="flex flex-col items-center gap-0.5 cursor-pointer">
+                <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30 -mt-4">
+                  <Plus className="w-6 h-6 text-primary-foreground" />
+                </div>
+                <span className="text-[10px] font-medium text-muted-foreground mt-0.5">Reportar</span>
+              </div>
+            </Link>
+          ) : (
+            <button onClick={() => setLoginOpen(true)} className="flex flex-col items-center gap-0.5 cursor-pointer">
+              <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30 -mt-4">
+                <Plus className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <span className="text-[10px] font-medium text-muted-foreground mt-0.5">Reportar</span>
+            </button>
+          )}
+
+          {navItem("/buscar", <Search className="w-5 h-5" />, "Buscar")}
+
+          {isAuthenticated
+            ? navItem("/mensajes", <MessageSquare className="w-5 h-5" />, "Mensajes", unread)
+            : loginNavItem(<MessageSquare className="w-5 h-5" />, "Mensajes")}
+        </div>
+      </nav>
+
+      <ManusDialog
+        open={loginOpen}
+        onOpenChange={setLoginOpen}
+        onLogin={() => { window.location.href = getLoginUrl(); }}
+        title="Bienvenido"
+      />
+    </>
   );
 }
