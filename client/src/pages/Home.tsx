@@ -282,9 +282,20 @@ export default function Home() {
                 ¿Dónde están mis placas?
               </span>
             </div>
-            <p className="text-xs text-muted-foreground text-center">
-              Plataforma de recuperación de placas vehiculares. Todos los derechos reservados.
-            </p>
+            <div className="flex flex-col items-center gap-1">
+              <p className="text-xs text-muted-foreground text-center">
+                Plataforma de recuperación de placas vehiculares. Todos los derechos reservados.
+              </p>
+              <div className="flex items-center gap-3 text-xs">
+                <Link href="/terminos" className="text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors">
+                  Términos de uso
+                </Link>
+                <span className="text-border">·</span>
+                <Link href="/privacidad" className="text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors">
+                  Política de privacidad
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </footer>

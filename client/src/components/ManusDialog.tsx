@@ -6,6 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Shield } from "lucide-react";
+import { Link } from "wouter";
 
 interface ManusDialogProps {
   title?: string;
@@ -150,13 +151,17 @@ export function ManusDialog({
         <div className="px-6 pb-6 text-center">
           <p className="text-xs text-muted-foreground leading-relaxed">
             Al continuar, aceptas nuestros{" "}
-            <span className="underline underline-offset-2 cursor-pointer hover:text-foreground transition-colors">
-              Términos de uso
-            </span>{" "}
-            y{" "}
-            <span className="underline underline-offset-2 cursor-pointer hover:text-foreground transition-colors">
-              Política de privacidad
-            </span>
+            <Link href="/terminos">
+              <span className="underline underline-offset-2 cursor-pointer hover:text-foreground transition-colors">
+                Términos de uso
+              </span>
+            </Link>
+            {" "}y{" "}
+            <Link href="/privacidad">
+              <span className="underline underline-offset-2 cursor-pointer hover:text-foreground transition-colors">
+                Política de privacidad
+              </span>
+            </Link>
             .
           </p>
         </div>

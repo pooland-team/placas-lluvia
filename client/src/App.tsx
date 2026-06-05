@@ -12,6 +12,8 @@ import ReportLost from "./pages/ReportLost";
 import ReportFound from "./pages/ReportFound";
 import Messaging from "./pages/Messaging";
 import MyPlates from "./pages/MyPlates";
+import Privacidad from "./pages/Privacidad";
+import Terminos from "./pages/Terminos";
 import NavBar from "./components/NavBar";
 import MobileNav from "./components/MobileNav";
 
@@ -30,6 +32,8 @@ function Router() {
           <Route path="/mensajes" component={Messaging} />
           <Route path="/mensajes/:id" component={Messaging} />
           <Route path="/mis-placas" component={MyPlates} />
+          <Route path="/privacidad" component={Privacidad} />
+          <Route path="/terminos" component={Terminos} />
           <Route path="/404" component={NotFound} />
           <Route component={NotFound} />
         </Switch>
