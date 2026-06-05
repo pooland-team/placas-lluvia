@@ -3,7 +3,6 @@ import { trpc } from "@/lib/trpc";
 import { Badge } from "@/components/ui/badge";
 import { Home, Search, Plus, MessageSquare, ListChecks } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { getLoginUrl } from "@/const";
 import { useState } from "react";
 import { ManusDialog } from "@/components/ManusDialog";
 
@@ -11,6 +10,7 @@ export default function MobileNav() {
   const { isAuthenticated } = useAuth();
   const [location] = useLocation();
   const [loginOpen, setLoginOpen] = useState(false);
+  const utils = trpc.useUtils();
 
   const { data: unread = 0 } = trpc.messaging.unreadCount.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -89,8 +89,7 @@ export default function MobileNav() {
       <ManusDialog
         open={loginOpen}
         onOpenChange={setLoginOpen}
-        onLogin={() => { window.location.href = getLoginUrl(); }}
-        title="Bienvenido"
+        onSuccess={() => utils.auth.me.invalidate()}
       />
     </>
   );

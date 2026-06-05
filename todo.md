@@ -60,3 +60,13 @@
 - [x] Actualizar `PlateDetail.tsx`: mostrar estado, sin descripción
 - [x] Actualizar `MyPlates.tsx`: mostrar estado
 - [x] Actualizar tests para reflejar nuevo esquema
+
+## Cambios v3 — Firebase Authentication
+
+- [x] Instalar Firebase SDK (firebase)
+- [x] Configurar credenciales Firebase como variables de entorno
+- [x] Crear helper de Firebase en el cliente (lib/firebase.ts)
+- [x] Endpoint backend para verificar Firebase ID token y crear sesión
+- [x] Actualizar hook useAuth para usar Firebase
+- [x] Actualizar ManusDialog para login real con Google y Facebook
+- [x] Tests actualizados para el nuevo flujo de auth

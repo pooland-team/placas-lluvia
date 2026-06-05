@@ -1,5 +1,5 @@
-import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
+import { firebaseSignOut } from "@/lib/firebase";
 import { TRPCClientError } from "@trpc/client";
 import { useCallback, useEffect, useMemo } from "react";
 
@@ -9,7 +9,7 @@ type UseAuthOptions = {
 };
 
 export function useAuth(options?: UseAuthOptions) {
-  const { redirectOnUnauthenticated = false, redirectPath = getLoginUrl() } =
+  const { redirectOnUnauthenticated = false, redirectPath = "/" } =
     options ?? {};
   const utils = trpc.useUtils();
 
@@ -26,6 +26,10 @@ export function useAuth(options?: UseAuthOptions) {
 
   const logout = useCallback(async () => {
     try {
+      // Sign out from Firebase first (if active)
+      await firebaseSignOut().catch(() => {
+        // Firebase may not be signed in — ignore
+      });
       await logoutMutation.mutateAsync();
     } catch (error: unknown) {
       if (
@@ -67,7 +71,7 @@ export function useAuth(options?: UseAuthOptions) {
     if (typeof window === "undefined") return;
     if (window.location.pathname === redirectPath) return;
 
-    window.location.href = redirectPath
+    window.location.href = redirectPath;
   }, [
     redirectOnUnauthenticated,
     redirectPath,

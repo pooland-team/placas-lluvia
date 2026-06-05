@@ -16,11 +16,28 @@ import Privacidad from "./pages/Privacidad";
 import Terminos from "./pages/Terminos";
 import NavBar from "./components/NavBar";
 import MobileNav from "./components/MobileNav";
+import { ManusDialog } from "./components/ManusDialog";
+import { trpc } from "@/lib/trpc";
+import { useState, useEffect } from "react";
 
 function Router() {
+  const [loginOpen, setLoginOpen] = useState(false);
+  const utils = trpc.useUtils();
+
+  useEffect(() => {
+    const handler = () => setLoginOpen(true);
+    window.addEventListener("app:require-login", handler);
+    return () => window.removeEventListener("app:require-login", handler);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
+      <ManusDialog
+        open={loginOpen}
+        onOpenChange={setLoginOpen}
+        onSuccess={() => { utils.auth.me.invalidate(); setLoginOpen(false); }}
+      />
       <main className="flex-1 pb-20 md:pb-0">
         <Switch>
           <Route path="/" component={Home} />

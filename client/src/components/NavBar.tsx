@@ -1,5 +1,4 @@
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,6 +26,7 @@ export default function NavBar() {
   const { user, isAuthenticated, logout } = useAuth();
   const [location] = useLocation();
   const [loginOpen, setLoginOpen] = useState(false);
+  const utils = trpc.useUtils();
 
   const { data: unread = 0 } = trpc.messaging.unreadCount.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -156,8 +156,7 @@ export default function NavBar() {
                 <ManusDialog
                   open={loginOpen}
                   onOpenChange={setLoginOpen}
-                  onLogin={() => { window.location.href = getLoginUrl(); }}
-                  title="Bienvenido"
+                  onSuccess={() => utils.auth.me.invalidate()}
                 />
               </>
             )}
